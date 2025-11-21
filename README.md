@@ -3,7 +3,6 @@
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.0%2B-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
 
 <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
@@ -37,22 +36,7 @@ This project addresses the critical need for accurate rental price estimation in
 
 ---
 
-## 📊 Model Performance
-
-| Metric | Score | Improvement vs Baseline |
-|--------|-------|------------------------|
-| R² Score | 0.8567 | +4.2% |
-| RMSE | 537.82 LKR | -12.3% |
-| MAE | 404.21 LKR | -13.8% |
-
-**Key Insights:**
-- Property size drives 34.2% of price variation
-- Downtown locations command 8.9% premium
-- Furnished properties add moderate value (4.2%)
-
----
-
-## 🏗️ Project Architecture
+## 🏗️ Project Structure
 
 ```
 colombo-rental-predictor/
