@@ -3,9 +3,10 @@ import numpy as np
 import joblib
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from sklearn.linear_model import TheilSenRegressor, PassiveAggressiveRegressor
-from sklearn.ensemble import VotingRegressor
+from sklearn.linear_model import HuberRegressor, RANSACRegressor
+from sklearn.ensemble import VotingRegressor, RandomForestRegressor
 import matplotlib.pyplot as plt
+import time
 
 from ..config import *
 from ..features import create_preprocessor
@@ -14,8 +15,12 @@ def train_models(X_train, y_train):
     preprocessor = create_preprocessor()
     
     models = {
-        "TheilSen": TheilSenRegressor(**MODEL_PARAMS['theilsen']),
-        "PassiveAggressive": PassiveAggressiveRegressor(**MODEL_PARAMS['passive_aggressive']),
+        "Huber": HuberRegressor(**MODEL_PARAMS['huber']),
+        "RANSAC": RANSACRegressor(**MODEL_PARAMS['ransac']),
+        "RandomForest": RandomForestRegressor(
+            n_estimators=200, max_depth=15, min_samples_split=5,
+            min_samples_leaf=2, max_features='sqrt', random_state=RANDOM_STATE, n_jobs=-1
+        )
     }
     
     trained_models = {}
@@ -37,9 +42,9 @@ def create_ensemble_model(X_train, y_train):
     ensemble = Pipeline([
         ('preprocessor', preprocessor),
         ('model', VotingRegressor([
-            ('theilsen', TheilSenRegressor(**MODEL_PARAMS['theilsen'])),
-            ('passive_aggressive', PassiveAggressiveRegressor(**MODEL_PARAMS['passive_aggressive']))
-        ]))
+            ('huber', HuberRegressor(**MODEL_PARAMS['huber'])),
+            ('ransac', RANSACRegressor(**MODEL_PARAMS['ransac']))
+        ], weights=MODEL_PARAMS['ensemble_weights']))
     ])
     
     ensemble.fit(X_train, y_train)
@@ -52,10 +57,8 @@ def evaluate_model(model, X_test, y_test, model_name="Model"):
     mae = mean_absolute_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
     
-    print(f"\n{model_name} Performance:")
-    print(f"  RMSE: {rmse:.2f}")
-    print(f"  MAE : {mae:.2f}")
-    print(f"  R²  : {r2:.4f}")
+    print(f"{model_name}:")
+    print(f"  R²: {r2:.4f} | RMSE: {rmse:.0f} | MAE: {mae:.0f}")
     
     return {'rmse': rmse, 'mae': mae, 'r2': r2}
 

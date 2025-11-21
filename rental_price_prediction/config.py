@@ -40,16 +40,15 @@ IMPUTER_STRATEGY_NUM = 'median'
 IMPUTER_STRATEGY_CAT = 'most_frequent'
 
 MODEL_PARAMS = {
-    'theilsen': {
-        'max_subpopulation': 1000,
-        'n_subsamples': None,
-        'max_iter': 300,
+    'huber': {
+        'epsilon': 1.35,
+        'alpha': 0.0001,
+        'max_iter': 1000
+    },
+    'ransac': {
+        'min_samples': 0.5,
+        'residual_threshold': None,
         'random_state': RANDOM_STATE
     },
-    'passive_aggressive': {
-        'C': 1.0,
-        'epsilon': 0.1,
-        'max_iter': 1000,
-        'random_state': RANDOM_STATE
-    }
+    'ensemble_weights': [3, 1]
 }

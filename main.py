@@ -16,8 +16,16 @@ def main():
         
         plot_model_comparison(results)
         
+        best_r2 = results['Ensemble']['r2']
         logger.info("Pipeline completed successfully!")
-        logger.info(f"Best model R²: {results['Ensemble']['r2']:.4f}")
+        logger.info(f"Final Ensemble R²: {best_r2:.4f}")
+        
+        print("\n" + "="*50)
+        print("FINAL MODEL SUMMARY")
+        print("="*50)
+        print("Selected: Huber + RANSAC Ensemble")
+        print(f"Performance: R² = {best_r2:.4f}")
+        print("Model saved to: models/best_rental_price_model.pkl")
         
     except Exception as e:
         logger.error(f"Pipeline failed with error: {e}")
