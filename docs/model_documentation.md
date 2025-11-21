@@ -7,18 +7,12 @@
 2. **Categorical Features**: Mode imputation + OneHotEncoding
 
 ### Model Ensemble
-- **Theil-Sen Regressor**: Robust median-based estimator
-- **Passive Aggressive Regressor**: Online learning with regularization
-- **Voting Ensemble**: Combines both models
+- **Huber Regressor**: Robust linear regression resistant to outliers
+- **RANSAC Regressor**: Random Sample Consensus for outlier rejection
+- **Voting Ensemble**: Combines both models with optimized weights [3, 1]
 
 ### Performance Metrics
-- **R² Score**: 0.8567 (Ensemble)
-- **RMSE**: 537.82 LKR
-- **MAE**: 404.21 LKR
+- **R² Score**: 0.8232 (Ensemble)
+- **RMSE**: 595 LKR
+- **MAE**: 477 LKR
 
-## Feature Importance
-1. Property Size (Size_in_Sqft)
-2. Number of Bedrooms
-3. Distance to City Center
-4. Neighborhood (Downtown/Suburbs)
-5. Building Type

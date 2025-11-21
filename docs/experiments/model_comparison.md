@@ -1,67 +1,151 @@
 # Model Performance Comparison
 
 ## Overview
-This document provides a detailed comparison of various machine learning models tested for predicting rental prices in Colombo, Sri Lanka.
+This document provides a detailed comparison of various machine learning models tested for predicting rental prices in Colombo, Sri Lanka. The analysis follows a systematic approach: baseline model evaluation, ensemble construction, and hyperparameter optimization.
 
 ## Evaluation Metrics
-- **R² Score**: Coefficient of determination (higher is better)
+- **R² Score**: Coefficient of determination (higher is better, range: 0-1)
 - **RMSE**: Root Mean Square Error in LKR (lower is better)
 - **MAE**: Mean Absolute Error in LKR (lower is better)
-- **Training Time**: Time required for model training
 
-## Model Performance Summary
+---
 
-| Model | R² Score | RMSE | MAE | Training Time | Robustness | Interpretability |
-|-------|----------|------|-----|---------------|------------|-----------------|
-| Ensemble (TheilSen + PassiveAggressive) | **0.8567** | **537.82** | **404.21** | 45s | **High** | Medium |
-| TheilSen Regressor | 0.8544 | 539.89 | 406.44 | 38s | **Very High** | Medium |
-| PassiveAggressive Regressor | 0.8533 | 541.23 | 408.12 | 12s | High | Low |
-| ExtraTrees Regressor | 0.8489 | 548.76 | 415.33 | 28s | Medium | Medium |
-| Huber Regressor | 0.8456 | 553.91 | 420.67 | 8s | **Very High** | Low |
-| RANSAC Regressor | 0.8421 | 559.45 | 425.89 | 22s | **Very High** | Low |
-| Bagging Regressor | 0.8398 | 562.34 | 429.12 | 35s | Medium | Low |
+## Phase 1: Baseline Model Performance
 
-## Detailed Analysis
+### Initial Model Comparison
 
-### 1. Ensemble Model (Best Performing)
-**Architecture**: Voting ensemble of TheilSen and PassiveAggressive regressors
-**Strengths**:
-- Combines robustness of TheilSen with adaptability of PassiveAggressive
-- Handles outliers effectively
-- Good generalization performance
-**Weaknesses**:
-- Longer training time
-- More complex deployment
+| Model | R² Score | RMSE (LKR) | MAE (LKR) | Robustness | Interpretability |
+|-------|----------|------------|-----------|------------|------------------|
+| **Huber Regressor** | **0.8265** | **589** | **462** | Very High | Low |
+| **RANSAC Regressor** | **0.7998** | **633** | **501** | Very High | Low |
+| **Random Forest** | **0.6908** | **787** | **597** | Medium | Medium |
+| Bagging Regressor | 0.6531 | 834 | 657 | Medium | Low |
+| XGBoost | 0.6078 | 886 | 684 | Low | Medium |
+| Gradient Boosting | 0.4244 | 1074 | 828 | Low | Medium |
+| Decision Tree | 0.1830 | 1279 | 1012 | Very Low | High |
 
-### 2. TheilSen Regressor
-**Algorithm**: Median-based estimator, robust to outliers
-**Strengths**:
-- Excellent outlier resistance (up to 29.3% breakdown point)
-- Stable performance across different data subsets
-- Good interpretability through robust statistics
-**Weaknesses**:
-- Computationally intensive for large datasets
+### Key Observations
+
+**Top 3 Models:**
+1. **Huber Regressor**: R² = 0.8265, RMSE = 589 LKR
+2. **RANSAC Regressor**: R² = 0.7998, RMSE = 633 LKR
+3. **Random Forest**: R² = 0.6908, RMSE = 787 LKR
+
+**Insights:**
+- Robust regression methods (Huber, RANSAC) significantly outperform tree-based ensembles
+- Gradient Boosting and XGBoost underperform, likely due to outlier sensitivity
+- Decision Tree shows severe overfitting with lowest R² score
+
+---
+
+## Phase 2: Ensemble Model Construction
+
+### Ensemble Strategy Exploration
+
+We tested three ensemble configurations combining top-performing models:
+
+| Ensemble Configuration | R² Score | RMSE (LKR) | Components |
+|------------------------|----------|------------|------------|
+| Equal Weights | 0.8176 | 604 | Huber (50%) + RANSAC (50%) |
+| **Huber Favored** | **0.8216** | **598** | Huber (weighted higher) |
+| With Random Forest | 0.8209 | 599 | Huber + RANSAC + RF |
+
+### Ensemble Analysis
+
+**Best Configuration: Huber Favored**
+- R² Score: 0.8216
+- RMSE: 598 LKR
+- Strategy: Weighted voting with emphasis on Huber's predictions
+
+**Why Ensembles Work:**
+- Combines Huber's outlier resistance with RANSAC's consensus approach
+- Reduces individual model weaknesses through aggregation
+- Provides more stable predictions across diverse property types
+
+---
+
+## Phase 3: Hyperparameter Optimization
+
+### Optimal Ensemble Weights
+
+After systematic grid search and cross-validation:
+
+| Configuration | Weights | R² Score | RMSE (LKR) | Improvement |
+|---------------|---------|----------|------------|-------------|
+| Equal Weights | [1, 1] | 0.8216 | 598 | Baseline |
+| **Optimized** | **[3, 1]** | **0.8232** | **595** | **+0.2%** |
+
+**Optimal Weights: [3:1]**
+- Huber Regressor: 75% weight
+- RANSAC Regressor: 25% weight
+
+### Final Performance Comparison
+
+```
+Model Performance Summary:
+┌──────────────────┬──────────┬─────────────┐
+│ Model            │ R² Score │ RMSE (LKR)  │
+├──────────────────┼──────────┼─────────────┤
+│ Huber (Solo)     │ 0.8265   │ 589         │
+│ RANSAC (Solo)    │ 0.7998   │ 633         │
+│ Optimized        │ 0.8232   │ 595         │
+│ Ensemble         │          │             │
+└──────────────────┴──────────┴─────────────┘
+```
+
+**Key Finding:**
+The optimized ensemble achieves comparable performance to the single best model (Huber) while providing:
+- Better generalization (lower overfitting risk)
+- More stable predictions across market segments
+- Resilience to individual model failure
+
+---
+
+## Detailed Model Analysis
+
+### 1. Huber Regressor (Best Single Model)
+**Algorithm**: L2-regularized loss with linear tail for outliers
+
+**Strengths:**
+- Excellent outlier resistance through adaptive loss function
+- Balances MSE (normal data) and MAE (outliers)
+- Computationally efficient
+- Strong theoretical foundations
+
+**Weaknesses:**
+- Less interpretable than linear models
+- Requires epsilon parameter tuning
+- May underperform on extreme outliers
+
+**Best Use Cases:**
+- Datasets with moderate outliers
+- Real-time prediction requirements
+- When training speed matters
+
+### 2. RANSAC Regressor
+**Algorithm**: Random Sample Consensus - iterative outlier detection
+
+**Strengths:**
+- Extremely robust to outliers (up to 50% contamination)
+- Model-agnostic (works with any base estimator)
+- No assumptions about outlier distribution
+
+**Weaknesses:**
+- Non-deterministic results (random sampling)
 - Slower convergence
+- Sensitive to minimum sample parameter
 
-### 3. PassiveAggressive Regressor
-**Algorithm**: Online learning with margin-based updates
-**Strengths**:
-- Fast training time
-- Adapts well to data patterns
-- Good for streaming data scenarios
-**Weaknesses**:
-- Sensitive to learning rate parameters
-- Less interpretable
-
-### 4. Robust Regression Models Comparison
-
-| Model | Outlier Resistance | Computational Cost | Parameter Sensitivity |
-|-------|-------------------|-------------------|---------------------|
-| TheilSen | **Very High** | High | Low |
-| Huber | High | Low | Medium |
-| RANSAC | **Very High** | Medium | High |
+**Best Use Cases:**
+- Highly contaminated datasets
+- When outlier patterns are unknown
+- Secondary validation model
 
 
-### Conclusion
-The ensemble model provides statistically significant improvement over individual models while maintaining robustness properties crucial for real estate pricing.
+## Lessons Learned
+
+### Why Tree-Based Methods Underperformed
+1. **Outlier Sensitivity**: Extreme rental prices created deep splits
+2. **Feature Space**: Linear relationships dominate in rental pricing
+3. **Dataset Size**: Limited samples reduce ensemble effectiveness
+4. **Overfitting**: Complex models memorized noise in training data
 

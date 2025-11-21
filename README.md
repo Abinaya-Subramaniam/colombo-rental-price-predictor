@@ -12,7 +12,7 @@ A Machine Learning system for predicting residential rental prices in Colombo, S
 
 ---
 
-## 🏠 Overview
+## Overview
 
 This project addresses the critical need for accurate rental price estimation in urban real estate markets by developing unconventional models that capture complex relationships between property features and rental values. Unlike traditional approaches, we focus on robust statistical methods that resist outliers and provide reliable predictions across diverse property types.
 
@@ -118,21 +118,7 @@ predicted_price = predict_rental_price(model, property_features)
 print(f"Predicted Rental Price: LKR {predicted_price:,.2f}")
 ```
 
-### Training a Model
-
-```bash
-# Using Make commands
-make data          # Process raw data
-make train         # Train models
-make evaluate      # Generate evaluation reports
-
-# Or directly with Python
-python rental_price_prediction/modeling/train.py --config config/train_config.yaml
-```
-
----
-
-## 📚 Documentation
+## Documentation
 
 Comprehensive documentation is available in the `docs/` directory:
 
@@ -155,10 +141,11 @@ Comprehensive documentation is available in the `docs/` directory:
 
 ### Models Implemented
 
-- **Theil-Sen Regressor**: Robust to outliers, median-based estimation
-- **Passive Aggressive Regressor**: Online learning for streaming data
-- **Voting Ensemble**: Combines multiple robust estimators
-- **Baseline Models**: Linear Regression, Ridge, Lasso for comparison
+- **Huber Regressor**: Robust linear regression resistant to outliers with epsilon-insensitive loss
+- **RANSAC Regressor**: Random Sample Consensus for robust outlier rejection
+- **Voting Ensemble**: Combines Huber and RANSAC with optimized weights [3, 1]
+- **Tree-Based Models**: Random Forest, Gradient Boosting, XGBoost for comparison
+- **Baseline Models**: Decision Tree, Bagging for performance benchmarking
 
 ### Key Technologies
 
@@ -167,19 +154,10 @@ Comprehensive documentation is available in the `docs/` directory:
 - **pandas**: Data manipulation
 - **SHAP**: Model explainability
 - **matplotlib/seaborn**: Visualization
-- **pytest**: Testing framework
 
 ---
 
-## 📈 Results & Insights
-
-### Top Features by Importance
-
-1. **Size_in_Sqft** (34.2%): Largest driver of rental prices
-2. **Bedrooms** (19.8%): Each additional bedroom adds significant value
-3. **Distance_to_City_Center** (15.6%): Central locations command premium
-4. **Neighborhood_Downtown** (8.9%): Downtown effect quantified
-5. **Bathrooms** (7.8%): Additional bathrooms increase value
+## Results & Insights
 
 ### Business Recommendations
 
@@ -210,15 +188,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 👥 Authors
-
-- **Abinaya Subramaniam** - *Initial work* - [YourGitHub](https://github.com/Abinaya-Subramaniam)
-
-See also the list of [contributors](https://github.com/Abinaya-Subramaniam/colombo-rental-predictor/contributors) who participated in this project.
-
----
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Cookiecutter Data Science project template
 - Colombo real estate data providers
@@ -227,8 +197,7 @@ See also the list of [contributors](https://github.com/Abinaya-Subramaniam/colom
 
 ---
 
-
-## 🗺️ Roadmap
+## Future Roadmap
 
 - [ ] Deploy REST API for real-time predictions
 - [ ] Add time-series analysis for rental trends
