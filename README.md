@@ -25,57 +25,55 @@ This project addresses the critical need for accurate rental price estimation in
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
-- 🔧 **Robust Algorithms**: Theil-Sen, Passive Aggressive, and ensemble models
-- 🎯 **Outlier Resistance**: Handles premium properties and data anomalies effectively
-- 📊 **SHAP Explainability**: Transparent feature importance and business insights
-- 🏗️ **Production Pipeline**: Modular, reproducible, and deployment-ready architecture
-- 🇱🇰 **Market Specific**: Tailored for Colombo real estate market characteristics
-- 📈 **Business Insights**: Actionable recommendations for stakeholders
+- **Robust Algorithms**: Theil-Sen, Passive Aggressive, and ensemble models
+- **Outlier Resistance**: Handles premium properties and data anomalies effectively
+- **SHAP Explainability**: Transparent feature importance and business insights
+- **Production Pipeline**: Modular, reproducible, and deployment-ready architecture
+- **Market Specific**: Tailored for Colombo real estate market characteristics
+- **Business Insights**: Actionable recommendations for stakeholders
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 colombo-rental-predictor/
-├── data/                   # Data processing pipelines
-│   ├── raw/               # Original, immutable data
-│   ├── processed/         # Cleaned, canonical datasets
-│   ├── interim/           # Intermediate transformations
-│   └── external/          # Third-party data sources
+├── data/                   
+│   ├── raw/               
+│   ├── processed/             
 │
-├── rental_price_prediction/  # Source code package
-│   ├── __init__.py        # Package initialization
-│   ├── config.py          # Configuration variables
-│   ├── dataset.py         # Data loading and generation
-│   ├── features.py        # Feature engineering code
-│   ├── modeling/          # ML components
-│   │   ├── train.py      # Model training pipeline
-│   │   └── predict.py    # Inference interface
-│   └── plots.py          # Visualization utilities
+├── rental_price_prediction/  
+│   ├── __init__.py       
+│   ├── config.py          
+│   ├── dataset.py         
+│   ├── features.py        
+│   ├── modeling/          
+│   │   ├── train.py      
+│   │   └── predict.py    
+│   └── plots.py          
 │
-├── notebooks/             # Experimental analysis  
+├── notebooks/              
 │
-├── docs/                  # Comprehensive documentation
+├── docs/                  
 │   ├── data_dictionary.md
 │   └── experiments/
 │       └── feature_engineering.md
 │       └── model_comparision.md
 │
-├── models/                # Trained models and artifacts
-├── reports/               # Generated analysis
-│   └── figures/          # Visualization outputs
-├── references/            # Research and standards
-├── tests/                 # Unit and integration tests
+├── models/                
+├── reports/               
+│   └── figures/          
+├── references/            
+├── tests/                 
 │
-├── requirements.txt       # Python dependencies
-├── setup.cfg             # Tool configurations
-├── pyproject.toml        # Project metadata
-├── Makefile              # Automation commands
-├── LICENSE               # Open-source license
-└── README.md             # This file
+├── requirements.txt       
+├── setup.cfg             
+├── pyproject.toml        
+├── Makefile              
+├── LICENSE               
+└── README.md            
 ```
 
 ---
@@ -129,7 +127,7 @@ Comprehensive documentation is available in the `docs/` directory:
 
 ---
 
-## 🔬 Methodology
+## Methodology
 
 ### Data Processing Pipeline
 
@@ -168,7 +166,7 @@ Comprehensive documentation is available in the `docs/` directory:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please follow these steps:
 
@@ -178,15 +176,8 @@ We welcome contributions! Please follow these steps:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
-
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 ## Acknowledgments
 
@@ -199,7 +190,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Future Roadmap
 
-- [ ] Deploy REST API for real-time predictions
 - [ ] Add time-series analysis for rental trends
 - [ ] Integrate geospatial features (GIS data)
 - [ ] Expand to other Sri Lankan cities
@@ -208,4 +198,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Note**: This is an active research project. Model performance metrics are based on historical data and should be validated on current market conditions before production deployment.
+**Note**: Model performance metrics are based on historical data and should be validated on current market conditions.
