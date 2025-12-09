@@ -42,7 +42,11 @@ This project addresses the critical need for accurate rental price estimation in
 colombo-rental-predictor/
 ├── data/                   
 │   ├── raw/               
-│   ├── processed/             
+│   ├── processed/     
+│ 
+│── api/
+├   ├── __init__.py
+├── ├── main.py      
 │
 ├── rental_price_prediction/  
 │   ├── __init__.py       
@@ -115,6 +119,18 @@ property_features = {
 predicted_price = predict_rental_price(model, property_features)
 print(f"Predicted Rental Price: LKR {predicted_price:,.2f}")
 ```
+## API & Docker Deployment
+
+This project provides a FastAPI-based REST API to serve rental price predictions. You can run it locally or using Docker.
+
+### Using Docker
+
+
+```bash
+docker build -t colombo-rental-api .
+docker run -d -p 8000:8000 colombo-rental-api
+http://localhost:8000/docs  
+
 
 ## Documentation
 
