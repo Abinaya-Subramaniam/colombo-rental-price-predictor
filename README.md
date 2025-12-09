@@ -130,7 +130,7 @@ This project provides a FastAPI-based REST API to serve rental price predictions
 docker build -t colombo-rental-api .
 docker run -d -p 8000:8000 colombo-rental-api
 http://localhost:8000/docs  
-
+```
 
 ## Documentation
 
