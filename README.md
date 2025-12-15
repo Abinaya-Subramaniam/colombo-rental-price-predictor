@@ -27,11 +27,9 @@ This project addresses the critical need for accurate rental price estimation in
 
 ## Key Features
 
-- **Robust Algorithms**: Theil-Sen, Passive Aggressive, and ensemble models
-- **Outlier Resistance**: Handles premium properties and data anomalies effectively
+- **Robust Algorithms**: RANSAC Regressor, Huber Regressor and ensemble models
 - **SHAP Explainability**: Transparent feature importance and business insights
 - **Production Pipeline**: Modular, reproducible, and deployment-ready architecture
-- **Market Specific**: Tailored for Colombo real estate market characteristics
 - **Business Insights**: Actionable recommendations for stakeholders
 
 ---
